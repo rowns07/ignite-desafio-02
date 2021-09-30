@@ -27,8 +27,7 @@ interface MovieProps {
 
 
 export function App() {
-  // const [selectedGenreId, setSelectedGenreId] = useState(1);
-  const nome = 'NOME NOME';
+  const [selectedGenreId, setSelectedGenreId] = useState(1);
   const [genres, setGenres] = useState<GenreResponseProps[]>([]);
 
   const [movies, setMovies] = useState<MovieProps[]>([]);
@@ -41,26 +40,26 @@ export function App() {
     });
   }, []);
 
-  // useEffect(() => {
-  //   api.get<MovieProps[]>(`movies/?Genre_id=${selectedGenreId}`).then(response => {
-  //     setMovies(response.data);
-  //   });
+  useEffect(() => {
+    api.get<MovieProps[]>(`movies/?Genre_id=${selectedGenreId}`).then(response => {
+      setMovies(response.data);
+    });
 
-  //   api.get<GenreResponseProps>(`genres/${selectedGenreId}`).then(response => {
-  //     setSelectedGenre(response.data);
-  //   })
-  // }, [selectedGenreId]);
+    api.get<GenreResponseProps>(`genres/${selectedGenreId}`).then(response => {
+      setSelectedGenre(response.data);
+    })
+  }, [selectedGenreId]);
 
-  // function handleClickButton(id: number) {
-  //   setSelectedGenreId(id);
-  // }
+  function handleClickButton(id: number) {
+    setSelectedGenreId(id);
+    console.log('CLIQUEI AQUI',id);
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
-      {/* {genres[0].title} */}
-      <SideBar generos={genres} />
+      <SideBar generos={genres} idGeneroSelecionado={selectedGenreId} handleClickButton={handleClickButton}/>
 
-      <Content filmes={movies}/>
+      <Content generoSelecionado={selectedGenre} filmes={movies}/>
     </div>
   )
 }
